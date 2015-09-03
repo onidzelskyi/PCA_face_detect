@@ -1,0 +1,39 @@
+---
+title: "readme"
+author: "Oleksii"
+date: "September 3, 2015"
+output: html_document
+---
+
+#### Affine transformations
+
+##### Files:
+- **affine.png** - test image
+- **affine.m** - implementation of affine transformation
+- **affine_example.m** - sample of using affine transform
+
+##### Examples:
+Examples of affine transformations using by self-implemented or Image Processing Toolbox.
+
+File **affine_example.m** gives examples of code for 3 types of affine transformations:
+
+- **Scale**
+- **Shear**
+- **Rotation**
+
+
+#### PCA for face recognition
+
+##### Files:
+- **pca.m** - implementation of PCA techique in face recognition 
+- **pca_example.m** - examples of using PCA algorithm
+- **orl.mat** - data file for demo mode
+- **demo.mat** - data file for demo mode
+- **digits.mat** - data file for digits mode
+
+##### Examples:
+The examples can be run 3 different modes:
+
+- **demo** ```>> pca('demo')``` - run demo mode for precalculated PCA eigenfaces
+- **digits** ```>> pca('digits')``` - run PCA algorithm for hand written digits
+- **orl** ```>> pca('orl')``` - run PCA algorithm for orl faces db
