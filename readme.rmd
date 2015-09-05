@@ -37,3 +37,18 @@ The examples can be run 3 different modes:
 - **demo** ```>> pca('demo')``` - run demo mode for precalculated PCA eigenfaces
 - **digits** ```>> pca('digits')``` - run PCA algorithm for hand written digits
 - **orl** ```>> pca('orl')``` - run PCA algorithm for orl faces db
+
+
+#### PCA for face identification
+
+##### Files:
+- **face_identification.m** - implementation of PCA techique in face identification 
+- **group.jpeg** - photo of a group of people
+- **single.jpeg** - photo of a single person
+
+##### Examples:
+The examples can be run:
+```{matlab}
+>> face_identification
+```
+![](demo.png)
