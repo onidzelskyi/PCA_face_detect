@@ -1,4 +1,7 @@
-function [] = pca(mode)
+function [] = pca(mode, show, errors)
+
+if ~exist('show', 'var') show=0; end;
+if ~exist('errors', 'var') errors=0; end;
 
 %% Clear 
 close all; close all; clc
@@ -44,6 +47,10 @@ end
 
 
 %% Test image
+
+% accuracy
+accuracy = zeros(1,size(X,1));
+
 for t=1:size(X_test,1)
     test_image = X_test(t,:);
     test_image = test_image - mu;
@@ -52,12 +59,25 @@ for t=1:size(X_test,1)
     d = bsxfun(@minus, eigenfaces,p);
     dist = arrayfun(@(idx) norm(d(idx,:)), 1:size(d,1)).^2;
     [a,b] = min(dist);
-    if strcmp(mode,'digits')
-        imshow([reshape(X(b,:),[M,N]), reshape(X_test(t,:),[M,N])]);
+    % accuracy
+    a1 = fix(t/40);
+    a2 = fix(b/40);
+    if b-fix(b/40)*40==t-fix(t/40)*40
+        accuracy(t) = 1;
     else
-        imshow(uint8([reshape(X(b,:),[M,N]), reshape(X_test(t,:),[M,N])]));
+        if errors==1
+            imshow(uint8([reshape(X(b,:),[M,N]), reshape(X_test(t,:),[M,N])]));
+            pause;
+        end
     end
-    pause;
+    if 1==show
+        if strcmp(mode,'digits')
+            imshow([reshape(X(b,:),[M,N]), reshape(X_test(t,:),[M,N])]);
+        else
+            imshow(uint8([reshape(X(b,:),[M,N]), reshape(X_test(t,:),[M,N])]));
+        end
+        pause;
+    end
 end
-
+fprintf('Accuracy: %f\n',sum(accuracy)/size(accuracy,2));
 end
