@@ -22,29 +22,13 @@ if 1==0
     M = [A,B;P];
     T = affine2d(M);
     J = imwarp(I,T);
-    imshow(J);
+    subplot(1,2,1); subimage(I);
+    subplot(1,2,2); subimage(J);
 end
 
 %% Shear
-A = [1 2; 1 1];
-
-% 1. Self implemented affine transform
-if 1==0
-    imshow(affine(I,A));
-end
-
-% 2. Or using by Image Processing Toolbox
-if 1==0
-    M = [A,B;P];
-    T = affine2d(M);
-    J = imwarp(I,T);
-    imshow(J);
-end
-
-%% Rotation
-Theta = 45;
-clockwise = 0;
-A = [cosd(Theta) (2*clockwise-1)*sind(Theta); (-2*clockwise+1)*sind(Theta) cosd(Theta)];
+%A = [1 0; .5 1];
+A = [0 0; 0 1];
 
 % 1. Self implemented affine transform
 if 1==0
@@ -56,5 +40,25 @@ if 1==1
     M = [A,B;P];
     T = affine2d(M);
     J = imwarp(I,T);
-    imshow(J);
+    subplot(1,2,1); subimage(I);
+    subplot(1,2,2); subimage(J);
+end
+
+%% Rotation
+Theta = 45;
+clockwise = 1;
+A = [cosd(Theta) (2*clockwise-1)*sind(Theta); (-2*clockwise+1)*sind(Theta) cosd(Theta)];
+
+% 1. Self implemented affine transform
+if 1==0
+    imshow(affine(I,A));
+end
+
+% 2. Or using by Image Processing Toolbox
+if 1==0
+    M = [A,B;P];
+    T = affine2d(M);
+    J = imwarp(I,T);
+    subplot(1,2,1); subimage(I);
+    subplot(1,2,2); subimage(J);
 end

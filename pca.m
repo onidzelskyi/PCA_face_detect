@@ -11,21 +11,25 @@ X = [];
 X_test = [];
 M = 0;
 N = 0;
+coeff = 0;
 
 %% Load data and test images
 if strcmp(mode, 'demo') % demo mode
     load('demo.mat'); % load all precalculated data
     M = 112;
     N = 92;
+    coeff = 40;
 else
     if strcmp(mode, 'digits') % digits mode
         load('digits.mat'); % load 5000 examples of hand written digits 20x20
         M = 20;
         N = 20;
+        coeff = 10;
     else % orl mode
         load('orl.mat'); % load 400 examples of faces by 112x92 and 40 test images 112x92
         M = 112;
         N = 92;
+        coeff = 40;
     end
     
     %% Normalize images
@@ -37,11 +41,14 @@ else
     % For handwritten digits 400 to 6
     L = [];
     [U,S,~] = svd((A'*A)/size(X,1));
-    for i=1:size(U,1)
-        if S(i,i)>1 % select only valuable features
-            L = [L U(:,i)];
+    for k=1:size(S)
+        s = sum(sum(S(1:k,1:k)))/sum(S(:));
+        if s>=0.99 
+            fprintf('Number of principal components K: %d,\tvariance: %f\n',k,s);
+            break;
         end
     end
+    L = U(:,1:k);
     eigenfaces = A*L; % reduced images
 end
 
@@ -50,6 +57,8 @@ end
 
 % accuracy
 accuracy = zeros(1,size(X,1));
+
+coeff = 10;
 
 for t=1:size(X_test,1)
     test_image = X_test(t,:);
@@ -60,13 +69,17 @@ for t=1:size(X_test,1)
     dist = arrayfun(@(idx) norm(d(idx,:)), 1:size(d,1)).^2;
     [a,b] = min(dist);
     % accuracy
-    a1 = fix(t/40);
-    a2 = fix(b/40);
-    if b-fix(b/40)*40==t-fix(t/40)*40
+    a1 = fix(t/coeff);
+    a2 = fix(b/coeff);
+    if b-fix(b/coeff)*coeff==t-fix(t/coeff)*coeff
         accuracy(t) = 1;
     else
         if errors==1
-            imshow(uint8([reshape(X(b,:),[M,N]), reshape(X_test(t,:),[M,N])]));
+            if strcmp(mode,'digits')
+                imshow([reshape(X(b,:),[M,N]), reshape(X_test(t,:),[M,N])]);
+            else
+                imshow(uint8([reshape(X(b,:),[M,N]), reshape(X_test(t,:),[M,N])]));
+            end
             pause;
         end
     end
